@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: skaffold-image-hello-world-flask
+spec:
+  type: image
+  params:
+    - name: url
+      # value: us.icr.io/redsonja_hyboria/anhuong/hello-world-flask
+      value: us.icr.io/redsonja_hyboria/anhuong/leeroy-web #configure: replace with where the image should go: perhaps your local registry or Dockerhub with a secret and configured service account
