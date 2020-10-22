@@ -12,36 +12,36 @@
   $ brew install tektoncd/tools/tektoncd-cli
   ```
 
-### Background Info on Tekton
+## Background Info on Tekton
 - Tekton - native Kube resources for building and executing CI/CD pipelines
-- successor/built from Knative build-pipelines.
-- Positioned to be the first open standard for defining native Kube CI/CD pipelines on any platform (Cloud provider, CD tool).
+  - successor/built from Knative build-pipelines.
+  - Positioned to be the first open standard for defining native Kube CI/CD pipelines on any platform (Cloud provider, CD tool).
 - Set of yamls define the pipeline but the yamls are meant to be simple to abstract away the implementation details to allow for flexibility.
 - Relies on containers as building blocks to execute commands, similar to knative build-pipeline.
 
-- Comprised of CRDs…
-    - `Task` — sequence of steps (individual commands) that initialize init containers and commands to execute —> Pods
-        - inputs/outputs (PipelineResources) need to be stored in common location — PVC or COS
-        - discrete, self contained part of a process
-        - Steps —> Containers
-    - `TaskRun`  — execution of `Task`, binds PipelineResource to Task, auto-created when create PipelineRun
-        - managed pod, deploying as many containers as steps
-    - `PipelineResources` — I/O for Pipeline Tasks, ie git repo, container image, storage
-    - `Pipeline` — collection of `PipelineResources` and `Tasks`
-        - ordered set of Tasks
-    - `PipelineRun`  — execution of `Pipeline`, binds Pipeline, Tasks, and PipelineResources —> instance of Pipeline
-        - creates pod for each task
+Comprised of CRDs…
+- `Task` — sequence of steps (individual commands) that initialize init containers and commands to execute —> Pods
+    - inputs/outputs (PipelineResources) need to be stored in common location — PVC or COS
+    - discrete, self contained part of a process
+    - Steps —> Containers
+- `TaskRun`  — execution of `Task`, binds PipelineResource to Task, auto-created when create PipelineRun
+    - managed pod, deploying as many containers as steps
+- `PipelineResources` — I/O for Pipeline Tasks, ie git repo, container image, storage
+- `Pipeline` — collection of `PipelineResources` and `Tasks`
+    - ordered set of Tasks
+- `PipelineRun`  — execution of `Pipeline`, binds Pipeline, Tasks, and PipelineResources —> instance of Pipeline
+    - creates pod for each task
 - PipelineRun --> Pipeline --> TaskRun --> PipelineResource + Task
 
 Super useful doc on Tekton specs and all the yaml pieces and fields. https://github.com/tektoncd/pipeline/tree/master/docs
 
 NOTE: names must all follow these [kube object dns guidelines](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names).
-- only lowercase alphanumeric characters or `-`
-- start and end with alphanumeric character
+  - only lowercase alphanumeric characters or `-`
+  - start and end with alphanumeric character
 
 NOTE: when you deploy a directory, it deploys in the order the files exist.
 
-#### Task
+### Task
 
 Task = sequence of `steps` each with own container.
 Comprised of:
@@ -70,7 +70,7 @@ Comprised of:
     - `/workspace` - for resources and workspaces to mount.
     - `/tekton` - Tekton specific functionaltiy like `/tekton/results` is where results are written to.
 
-#### Pipeline
+### Pipeline
 
 ## Tutorial
 
@@ -286,6 +286,8 @@ $ tkn taskrun delete --all --force
 All TaskRuns deleted in namespace "default"
 ```
 
+<br>
+
 ### Input/Outputs - PipelineResource
 
 https://github.com/tektoncd/pipeline/blob/master/docs/resources.md
@@ -448,6 +450,8 @@ error building image: error building stage: failed to execute command: waiting f
 
 So then I used the given image example from the tutorial and that worked.
 
+<br>
+
 ### Pipelines
 
 A `Pipeline` defines an ordered series of `Task`s that you want to execute along with the corresponding inputs and outputs for each Task. You can specify whether the output of one Task is used as an input for the next Task using the `from` property.
@@ -556,5 +560,6 @@ $ tkn pipelinerun logs || tkn pipeline logs tutorial-simple-pipeline
 [task-echo-hello-world : echo-param]
 
 [echo-pi : pi] 3.141592653589793238......
-
 ```
+
+<br>
