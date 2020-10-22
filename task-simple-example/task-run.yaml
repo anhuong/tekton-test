@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  name: echo-hello-world-task-run
+  name: echo-messages-task-run
 spec:
   taskRef:
-    name: echo-hello-world
+    name: echo-messages
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun

@@ -39,6 +39,8 @@ NOTE: names must all follow these [kube object dns guidelines](https://kubernete
 - only lowercase alphanumeric characters or `-`
 - start and end with alphanumeric character
 
+NOTE: when you deploy a directory, it deploys in the order the files exist.
+
 #### Task
 
 Task = sequence of `steps` each with own container.
