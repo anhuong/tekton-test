@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: tutorial-simple-pipeline
+spec:
+  tasks:
+    - name: task-echo-inputs
+      taskRef:
+        name: echo-inputs
+      params:
+        - name: textToPrint
+          value: "This is some string to print from a parameter."
+        - name: arrayToPrint
+          value:
+            - "I am"
+            - "an array"
+            - "Hooray!"
+    - name: task-echo-hello-world
+      taskRef:
+        name: echo-hello-world
+        # This part is not working for me but works without it
+      # when:
+      # - input: "$(tasks.task-echo-inputs.results.current-date-human-readable)"
+      #   operator: in
+      #   values: ["yes"]
+      params:
+        - name: printResult
+          value: $(tasks.task-echo-inputs.results.current-date-human-readable)
+  results:
+    - name: current-date-human-readable
+      description: The current date in human readable format
+      value: $(tasks.task-echo-inputs.results.current-date-human-readable)

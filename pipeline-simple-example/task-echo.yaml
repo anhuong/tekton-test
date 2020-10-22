@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: echo-inputs
+spec:
+  params:
+    - name: textToPrint
+      type: string
+      description: Text to echo
+      default: Hello world
+    - name: arrayToPrint
+      type: array
+      description: Array to echo
+      default:
+  results:
+    - name: current-date-human-readable
+      description: The current date in human readable format
+  steps:
+    - name: echo-array-to-print
+      image: ubuntu
+      command:
+        - echo
+      args:
+        - ARRAY PARAM
+        - "$(params.arrayToPrint[*])"
+    - name:  echo-text-to-print
+      image: bash:latest
+      script: |
+        #!/usr/bin/env bash
+        echo TEXT PARAM
+        echo $(params.textToPrint)
+    - name: print-date-human-readable
+      image: bash:latest
+      script: |
+        #!/usr/bin/env bash
+        date | tee "$(results.current-date-human-readable.path)"

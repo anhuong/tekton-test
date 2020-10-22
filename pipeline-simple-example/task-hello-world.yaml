@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: echo-hello-world
+spec:
+  params:
+    - name: printResult
+      type: string
+      description: Text to echo
+      default: Hello world
+  steps:
+    - name: echo
+      image: ubuntu
+      command:
+        - echo
+      args:
+        - "Hello World"
+    - name: echo-param
+      image: ubuntu
+      command:
+        - echo
+      args:
+        - $(params.printResult)
